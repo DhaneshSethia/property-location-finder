@@ -124,6 +124,7 @@ if "user_city" not in st.session_state:
         city_options,
         index=0
     )
+    track_event("filter_applied", {"filter": "city", "city": selected_default})
 
     if selected_default != "-- Select a city --":
         st.session_state["user_city"] = selected_default
@@ -140,6 +141,7 @@ selected_city = st.sidebar.selectbox(
     cities,
     index=cities.index(st.session_state["user_city"]) if st.session_state["user_city"] in cities else 0
 )
+track_event("filter_applied", {"filter": "city", "city": selected_city})
 
 
 # Location filter (depends on City)
@@ -148,6 +150,7 @@ if selected_city != "All":
 else:
     locations = ["All"] + sorted(df["location"].dropna().unique().tolist())
 selected_location = st.sidebar.selectbox("Select Location", locations)
+track_event("filter_applied", {"filter": "location", "city": selected_city, "value": selected_location})
 
 # Locality filter (depends on City & Location)
 if selected_city != "All" and selected_location != "All":
@@ -160,10 +163,12 @@ elif selected_location != "All":
 else:
     localities = ["All"] + sorted(df["locality"].dropna().unique().tolist())
 selected_locality = st.sidebar.selectbox("Select Locality", localities)
+track_event("filter_applied", {"filter": "locality", "city": selected_city, "value": selected_locality})
 
 # Segment filter
 segments = ["All"] + sorted(df["segment"].dropna().unique().tolist())
 selected_segment = st.sidebar.selectbox("Select Segment", segments)
+track_event("filter_applied", {"filter": "segment", "city": selected_city, "value": selected_segment})
 
 # Property type filter
 property_types = ["All"] + sorted(df["property_type"].dropna().unique().tolist())
@@ -176,6 +181,7 @@ selected_property_type = st.sidebar.selectbox(
     property_types,
     index=default_index
 )
+track_event("filter_applied", {"filter": "property_type", "city": selected_city, "value": selected_property_type})
 
 # Metric selection
 numeric_cols = ["rental_yields", "rates_per_sqft"]
@@ -183,6 +189,7 @@ numeric_cols = ["rental_yields", "rates_per_sqft"]
 # Set "rates_per_sqft" as default
 default_metric_index = numeric_cols.index("rates_per_sqft")
 metric = st.selectbox("Metric", numeric_cols, index=default_metric_index)
+track_event("filter_applied", {"filter": "metric", "city": selected_city, "value": metric})
 
 # ==============================
 # APPLY FILTERS
@@ -410,6 +417,7 @@ def haversine(lat1, lon1, lat2, lon2):
 if selected_property_type != "All" and selected_city != "All" and not filtered_df.empty:
     
     ref_locality = st.selectbox("Select Reference Locality", sorted(df[df["city"] == selected_city]["locality"].unique()))
+    track_event("filter_applied", {"filter": "ref_locality", "city": selected_city, "value": ref_locality})
 
     if ref_locality:
         ref_row = df[(df["city"] == selected_city) & (df["locality"] == ref_locality)].iloc[0]
@@ -511,5 +519,6 @@ components.iframe(form_url, height=600, scrolling=True)
 #         sheet.append_row([timestamp, q1, q2, q3])
 
 #         st.success("✅ Thanks! Your feedback has been recorded.")
+
 
 
