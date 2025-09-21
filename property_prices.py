@@ -178,7 +178,7 @@ selected_property_type = st.sidebar.selectbox(
 )
 
 # Metric selection
-numeric_cols = ["rental_yields", "rates"]
+numeric_cols = ["rental_yields", "rates_per_sqft"]
 
 # Set "rates" as default
 default_metric_index = numeric_cols.index("rates")
@@ -511,3 +511,4 @@ components.iframe(form_url, height=600, scrolling=True)
 #         sheet.append_row([timestamp, q1, q2, q3])
 
 #         st.success("✅ Thanks! Your feedback has been recorded.")
+
