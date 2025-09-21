@@ -29,14 +29,12 @@ ga_code = f"""
 <script async src="https://www.googletagmanager.com/gtag/js?id={GA_TRACKING_ID}"></script>
 <script>
   window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  if (typeof gtag === "function") {
-    gtag('js', new Date());
-    gtag('config', '{GA_TRACKING_ID}');
-  }
+  function gtag(){{{{dataLayer.push(arguments);}}}}
+  gtag('js', new Date());
+  gtag('config', '{GA_TRACKING_ID}');
 </script>
-
 """
+
 components.html(ga_code, height=0)
 
 def track_event(event_name, event_params=None):
@@ -522,6 +520,7 @@ components.iframe(form_url, height=600, scrolling=True)
 #         sheet.append_row([timestamp, q1, q2, q3])
 
 #         st.success("✅ Thanks! Your feedback has been recorded.")
+
 
 
 
