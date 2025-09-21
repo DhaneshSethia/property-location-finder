@@ -180,8 +180,8 @@ selected_property_type = st.sidebar.selectbox(
 # Metric selection
 numeric_cols = ["rental_yields", "rates_per_sqft"]
 
-# Set "rates" as default
-default_metric_index = numeric_cols.index("rates")
+# Set "rates_per_sqft" as default
+default_metric_index = numeric_cols.index("rates_per_sqft")
 metric = st.selectbox("Metric", numeric_cols, index=default_metric_index)
 
 # ==============================
@@ -215,7 +215,7 @@ if not filtered_df.empty:
         ["⚖️", "📉", "📈"]
     ):
         # Format value based on metric
-        if metric == "rates":
+        if metric == "rates_per_sqft":
             display_value = f"₹{value:,.0f}"
         elif metric == "rental_yields":
             display_value = f"{value*100:.2f}%"
@@ -278,7 +278,7 @@ if not filtered_df.empty:
         # ).add_to(m)
         
         # Format the value based on the metric
-        if metric == "rates":
+        if metric == "rates_per_sqft":
             display_value = f"₹{value:,.0f}"
         elif metric == "rental_yields":
             display_value = f"{value*100:.2f}%"
@@ -368,7 +368,7 @@ if selected_property_type != "All" and selected_city != "All" and not filtered_d
     fig_bar.update_traces(width=0.6)  # 0.6 means 60% of available space per bar
     
     # Format the y-axis and bar text dynamically
-    if metric == "rates":
+    if metric == "rates_per_sqft":
         fig_bar.update_yaxes(tickprefix="₹", tickformat=",")   # adds ₹ prefix with comma formatting
         fig_bar.update_traces(texttemplate="₹%{y:,.0f}")      # value on bars with ₹
     elif metric == "rental_yields":
@@ -461,7 +461,7 @@ if selected_property_type != "All" and selected_city != "All" and not filtered_d
         fig_dist.update_traces(width=0.6)
         
         # Format the y-axis and bar text dynamically
-        if metric == "rates":
+        if metric == "rates_per_sqft":
             fig_dist.update_yaxes(tickprefix="₹", tickformat=",")   # adds ₹ prefix with comma formatting
             fig_dist.update_traces(texttemplate="₹%{y:,.0f}")      # value on bars with ₹
         elif metric == "rental_yields":
@@ -511,4 +511,5 @@ components.iframe(form_url, height=600, scrolling=True)
 #         sheet.append_row([timestamp, q1, q2, q3])
 
 #         st.success("✅ Thanks! Your feedback has been recorded.")
+
 
